@@ -1,0 +1,208 @@
+﻿@model HomeOfPandaEyes.StockLearning.Web.Models.StockFinancialReportContext
+
+
+@{
+    ViewBag.Title = "3521选股";
+    ViewBag.Description = "股票筛选";
+}
+
+<!-- Content Header (Page header) -->
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <!-- /.box -->
+
+            <div class="box">
+                <div class="box-header">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label class=" control-label">收入同比增长%</label>
+                            <input id="txtYSTZ" class="form-control" placeholder="" value="30" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class=" control-label">销售毛利率%</label>
+                            <input id="txtXSMLL" class="form-control" placeholder="" value="50" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class=" control-label">净利率%</label>
+                            <input id="txtROEPJ" class="form-control" placeholder="" value="20" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class=" control-label">近2年内符合次数</label>
+                            <select id="selCount" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class=" control-label">忽略总资产周转率</label>
+                            <p></p>
+                            <input type="checkbox" id="chkZZCZZL" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class=" control-label"></label>
+                            <p></p>
+                            <input type="submit" value="查询" class="btn btn-primary" id="btnsearch" style="width:100px" />
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <table id="stocks" class="table table-bordered table-striped text-sm">
+                        <thead>
+                            <tr>
+                                <th width="50px">股票名称</th>
+                                <th>截止日期</th>
+                                <th>每股收益(元)</th>
+                                <th>每股收益(扣除)(元)</th>
+                                <th>营业收入(亿元)</th>
+                                <th>同比增长(%) </th>
+                                <th>季度环比增长(%)</th>
+                                <th>归属净利润(亿元)</th>
+                                <th>同比增长(%)</th>
+                                <th>季度环比增长(%)</th>
+                                <th>每股净资产(元)</th>
+                                <th>净资产收益率(%)</th>
+                                <th>净利润(亿元)</th>
+                                <th>净利率(%)</th>
+                                <th>总资产周转率(次)</th>
+                                <th>每股经营现金流量(元)</th>
+                                <th>销售毛利率(%)</th>
+                                <th width="60px">利润分配</th>
+                                <th>股息率(%)</th>
+                                <th>公告日期</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FinancialReports)
+                            {
+                                <tr>
+                                    <td><a href="../stock/FinancialReport/@item.Stock.StockId" target="_blank">@item.Stock.StockName</a></td>
+                                    <td>@item.ReportDate.ToShortDateString()</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EPSJB)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EPSKCJB)</td>
+                                    <td>@Math.Round(item.YS.Value / 100000000, 2)</td>
+                                    <td class="classYSTZ">@Html.DisplayFor(modelItem => item.YSTZ)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.YSHZ)</td>
+                                    <td>@Math.Round(item.SJL.Value / 100000000, 2)</td>
+                                    <td class="classYSTZ">@Html.DisplayFor(modelItem => item.SJLTZ)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.SJLHZ)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.BPS)</td>
+                                    <td >@Html.DisplayFor(modelItem => item.ROEPJ)</td>
+                                    <td >@Math.Round(item.SJL.Value / 100000000, 2)</td>
+                                    <td class="classYYJLL">@Html.DisplayFor(modelItem => item.YYJLL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ZZCZZL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MGXJJE)</td>
+                                    <td class="classXSMLL">@Html.DisplayFor(modelItem => item.XSMLL)</td>
+                                    @if (item.LRFP == "不分配不转增")
+                                    {
+                                        <td></td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.DisplayFor(modelItem => item.LRFP)</td>
+                                    }
+                                    <td class="classGXL">@Html.DisplayFor(modelItem => item.GXL)</td>
+                                    <td>@item.NoticeDate.Value.ToShortDateString()</td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr></tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div class="box-body">
+                    <h5>
+                        <span class="goodvalue">红色</span>&nbsp&nbsp
+                        1) 收入同比增长 >30% &nbsp&nbsp
+                        2) 销售毛利率 >50% &nbsp&nbsp
+                        3) 净资产收益率 >20% &nbsp&nbsp
+                        4) 股息 >4%
+                    </h5>
+                    <h5>首次加载判断的是最后一期财报的数据</h5>
+                    <h5>选股方法来源自雪球"投资从入门到精通"的文章.</h5>
+                    <h5>3521-> 3是收入同比增长 >30%, 5是销售毛利率 >50%, 2是净利率 >20%, 1是总资产周转率(每年) >100%. 由于数据原因, 总资产周转率的数据使用的是上年年末的值 </h5>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- Left side column. contains the logo and sidebar -->
+<style>
+    .goodvalue {
+        color: #ff6a00 !important;
+        font-weight: bold !important;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#stocks').DataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': false,
+            'info': true,
+            'autoWidth': false,
+            'iDisplayLength': 10
+        });
+
+        $(".classYSTZ") // 收入同比增长>30%
+            .filter
+            (
+            function () {
+                return $(this).text() > 30;
+            }
+            )
+            .addClass("goodvalue");
+
+        $(".classGXL") // 股息 > 4%
+            .filter
+            (
+            function () {
+                return $(this).text() >= 4;
+            }
+            )
+            .addClass("goodvalue");
+        $(".classXSMLL") // 销售毛利率 > 50%
+            .filter
+            (
+            function () {
+                return $(this).text() >= 50;
+            }
+            )
+            .addClass("goodvalue");
+        $(".classYYJLL") // 净利率 > 20%
+            .filter
+            (
+            function () {
+                return $(this).text() >= 20;
+            }
+            )
+            .addClass("goodvalue");
+    });
+
+    $("#btnsearch").click(function () {
+        window.location.href = "../Stock/StockSelection3521?YSTZ=" + $("#txtYSTZ").val() + "&XSMLL=" + $("#txtXSMLL").val() + "&ROEPJ=" + $("#txtROEPJ").val() + "&Count=" + $("#selCount").val() + "&ZZCZZL=" + $("#chkZZCZZL")[0].checked;
+    });
+</script>
+
+
+

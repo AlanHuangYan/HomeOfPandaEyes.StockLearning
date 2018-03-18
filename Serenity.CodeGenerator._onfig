@@ -1,0 +1,37 @@
+﻿{
+    "RootNamespace": "HomeOfPandaEyes.StockLearning",
+    "Connections": [
+        {
+            "Key": "Default",
+            "ConnectionString": "Data Source=.; Initial Catalog=StockLearning; ;User ID=sa; Password=pass@word1",
+            "ProviderName": "System.Data.SqlClient",
+            "Tables": [
+                {
+                    "Tablename": "dbo.Stocks",
+                    "Identifier": "Stocks",
+                    "Module": "Default",
+                    "ConnectionKey": "Default",
+                    "PermissionKey": "Administration:General"
+                },
+                {
+                    "Tablename": "dbo.StockFinancialReports",
+                    "Identifier": "StockFinancialReports",
+                    "Module": "Default",
+                    "ConnectionKey": "Default",
+                    "PermissionKey": "Administration:General"
+                }
+            ]
+        }
+    ],
+    "KDiff3Path": "C:\\Program Files (x86)\\KDiff3\\kdiff3.exe",
+    "TFSIntegration": false,
+    "WebProjectFile": "..\\..\\..\\HomeOfPandaEyes.StockLearning.Web\\HomeOfPandaEyes.StockLearning.Web.csproj",
+    "BaseRowClasses": [],
+    "RemoveForeignFields": [],
+    "CustomGenerate": {},
+    "CustomSettings": {},
+    "GenerateRow": true,
+    "GenerateService": true,
+    "GenerateUI": true,
+    "GenerateCustom": true
+}

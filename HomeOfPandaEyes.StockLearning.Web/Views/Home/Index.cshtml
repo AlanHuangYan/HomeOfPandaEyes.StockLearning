@@ -1,0 +1,69 @@
+﻿@model HomeOfPandaEyes.StockLearning.Web.Models.StockSummaryContext
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Description = "Home Page";
+}
+
+<div class="row">
+    
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>@(Model.CountSH + Model.CountSZ + Model.CountCY)</h3>
+
+                <p>总数</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>@Model.CountSH &nbsp&nbsp&nbsp<sup style="font-size: 20px">@(Math.Round((float)Model.CountSH/(Model.CountSH + Model.CountSZ + Model.CountCY)*100,1))%</sup></h3>
+
+                <p>沪市</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>@Model.CountSZ&nbsp&nbsp&nbsp<sup style="font-size: 20px">@(Math.Round((float)Model.CountSZ / (Model.CountSH + Model.CountSZ + Model.CountCY) * 100, 1))%</sup></h3>
+
+                <p>深市</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>@Model.CountCY&nbsp&nbsp&nbsp<sup style="font-size: 20px">@(Math.Round((float)Model.CountCY / (Model.CountSH + Model.CountSZ + Model.CountCY) * 100, 1))%</sup></h3>
+
+                <p>创业板</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>

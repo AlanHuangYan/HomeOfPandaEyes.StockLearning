@@ -1,0 +1,703 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StockLearningModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Exceptions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MachineName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsProtected" Type="bit" Nullable="false" />
+          <Property Name="Host" Type="nvarchar" MaxLength="100" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" />
+          <Property Name="HTTPMethod" Type="nvarchar" MaxLength="10" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="40" />
+          <Property Name="Source" Type="nvarchar" MaxLength="100" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Detail" Type="nvarchar(max)" />
+          <Property Name="StatusCode" Type="int" />
+          <Property Name="SQL" Type="nvarchar(max)" />
+          <Property Name="DeletionDate" Type="datetime" />
+          <Property Name="FullJson" Type="nvarchar(max)" />
+          <Property Name="ErrorHash" Type="int" />
+          <Property Name="DuplicateCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Languages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LanguageId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="LanguageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolePermissions">
+          <Key>
+            <PropertyRef Name="RolePermissionId" />
+          </Key>
+          <Property Name="RolePermissionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="PermissionKey" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockFinancialReports">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockId" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ReportDate" Type="date" Nullable="false" />
+          <Property Name="EPSJB" Type="money" />
+          <Property Name="EPSKCJB" Type="money" />
+          <Property Name="YS" Type="money" />
+          <Property Name="YSTZ" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="YSHZ" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="SJL" Type="money" />
+          <Property Name="SJLTZ" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="SJLHZ" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="BPS" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="ROEPJ" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="MGXJJE" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="XSMLL" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="LRFP" Type="nvarchar" MaxLength="50" />
+          <Property Name="GXL" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="NoticeDate" Type="date" />
+          <Property Name="UpdatedDate" Type="date" />
+          <Property Name="JLR" Type="money" />
+          <Property Name="YYJLL" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="ZZCZZL" Type="decimal" Precision="18" Scale="8" />
+        </EntityType>
+        <EntityType Name="Stocks">
+          <Key>
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="StockId" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="StockName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pinyin" Type="nvarchar" MaxLength="10" />
+          <Property Name="WebAddress" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserPermissions">
+          <Key>
+            <PropertyRef Name="UserPermissionId" />
+          </Key>
+          <Property Name="UserPermissionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PermissionKey" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Granted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPreferences">
+          <Key>
+            <PropertyRef Name="UserPreferenceId" />
+          </Key>
+          <Property Name="UserPreferenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="PreferenceType" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Source" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="86" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastDirectoryUpdate" Type="datetime" />
+          <Property Name="UserImage" Type="nvarchar" MaxLength="100" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="InsertUserId" Type="int" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateUserId" Type="int" />
+          <Property Name="IsActive" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'StockLearning.dbo.VersionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="bigint" Nullable="false" />
+          <Property Name="AppliedOn" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <Association Name="FK_RolePermissions_RoleId">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RolePermissions" Type="Self.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockFinancialReports_Stocks">
+          <End Role="Stocks" Type="Self.Stocks" Multiplicity="1" />
+          <End Role="StockFinancialReports" Type="Self.StockFinancialReports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="StockId" />
+            </Principal>
+            <Dependent Role="StockFinancialReports">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermissions_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserPermissions" Type="Self.UserPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserPermissions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_RoleId">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StockLearningModelStoreContainer">
+          <EntitySet Name="Exceptions" EntityType="Self.Exceptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolePermissions" EntityType="Self.RolePermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockFinancialReports" EntityType="Self.StockFinancialReports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stocks" EntityType="Self.Stocks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPermissions" EntityType="Self.UserPermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VersionInfo" EntityType="Self.VersionInfo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VersionInfo].[Version] AS [Version], 
+    [VersionInfo].[AppliedOn] AS [AppliedOn], 
+    [VersionInfo].[Description] AS [Description]
+    FROM [dbo].[VersionInfo] AS [VersionInfo]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_RolePermissions_RoleId" Association="Self.FK_RolePermissions_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockFinancialReports_Stocks" Association="Self.FK_StockFinancialReports_Stocks">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="StockFinancialReports" EntitySet="StockFinancialReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermissions_UserId" Association="Self.FK_UserPermissions_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPermissions" EntitySet="UserPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_RoleId" Association="Self.FK_UserRoles_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_UserId" Association="Self.FK_UserRoles_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StockLearningModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Exception">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GUID" Type="Guid" Nullable="false" />
+          <Property Name="ApplicationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MachineName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsProtected" Type="Boolean" Nullable="false" />
+          <Property Name="Host" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HTTPMethod" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusCode" Type="Int32" />
+          <Property Name="SQL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeletionDate" Type="DateTime" Precision="3" />
+          <Property Name="FullJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ErrorHash" Type="Int32" />
+          <Property Name="DuplicateCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LanguageId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolePermission">
+          <Key>
+            <PropertyRef Name="RolePermissionId" />
+          </Key>
+          <Property Name="RolePermissionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionKey" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_RolePermissions_RoleId" FromRole="RolePermissions" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RolePermissions" Relationship="Self.FK_RolePermissions_RoleId" FromRole="Roles" ToRole="RolePermissions" />
+          <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_RoleId" FromRole="Roles" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="UserPermissionId" />
+          </Key>
+          <Property Name="UserPermissionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionKey" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Granted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserPermissions_UserId" FromRole="UserPermissions" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserPreference">
+          <Key>
+            <PropertyRef Name="UserPreferenceId" />
+          </Key>
+          <Property Name="UserPreferenceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="PreferenceType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_UserRoles_RoleId" FromRole="UserRoles" ToRole="Roles" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserRoles_UserId" FromRole="UserRoles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="86" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastDirectoryUpdate" Type="DateTime" Precision="3" />
+          <Property Name="UserImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsertUserId" Type="Int32" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUserId" Type="Int32" />
+          <Property Name="IsActive" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="UserPermissions" Relationship="Self.FK_UserPermissions_UserId" FromRole="Users" ToRole="UserPermissions" />
+          <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_UserId" FromRole="Users" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="Int64" Nullable="false" />
+          <Property Name="AppliedOn" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_RolePermissions_RoleId">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="RolePermissions" Type="Self.RolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_RoleId">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermissions_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserPermissions" Type="Self.UserPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserPermissions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StockLearningEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Exceptions" EntityType="Self.Exception" />
+          <EntitySet Name="Languages" EntityType="Self.Language" />
+          <EntitySet Name="RolePermissions" EntityType="Self.RolePermission" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="UserPermissions" EntityType="Self.UserPermission" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreference" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="VersionInfoes" EntityType="Self.VersionInfo" />
+          <AssociationSet Name="FK_RolePermissions_RoleId" Association="Self.FK_RolePermissions_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_RoleId" Association="Self.FK_UserRoles_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermissions_UserId" Association="Self.FK_UserPermissions_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPermissions" EntitySet="UserPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_UserId" Association="Self.FK_UserRoles_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="StockLearningModel.sysdiagram" />
+          <EntitySet Name="StockFinancialReports" EntityType="StockLearningModel.StockFinancialReport" />
+          <EntitySet Name="Stocks" EntityType="StockLearningModel.Stock" />
+          <AssociationSet Name="FK_StockFinancialReports_Stocks" Association="StockLearningModel.FK_StockFinancialReports_Stocks">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockFinancialReport" EntitySet="StockFinancialReports" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="StockFinancialReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EPSJB" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EPSKCJB" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="YS" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="YSTZ" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="YSHZ" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="SJL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SJLTZ" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="SJLHZ" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="BPS" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="ROEPJ" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="MGXJJE" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="XSMLL" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="LRFP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GXL" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="NoticeDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Stock" Relationship="StockLearningModel.FK_StockFinancialReports_Stocks" FromRole="StockFinancialReport" ToRole="Stock" />
+          <Property Name="JLR" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="YYJLL" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="ZZCZZL" Type="Decimal" Precision="18" Scale="8" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="StockId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="StockName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pinyin" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="WebAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StockFinancialReports" Relationship="StockLearningModel.FK_StockFinancialReports_Stocks" FromRole="Stock" ToRole="StockFinancialReport" />
+        </EntityType>
+        <Association Name="FK_StockFinancialReports_Stocks">
+          <End Type="StockLearningModel.Stock" Role="Stock" Multiplicity="1" />
+          <End Type="StockLearningModel.StockFinancialReport" Role="StockFinancialReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="StockId" />
+            </Principal>
+            <Dependent Role="StockFinancialReport">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StockLearningModelStoreContainer" CdmEntityContainer="StockLearningEntities">
+          <EntitySetMapping Name="Exceptions">
+            <EntityTypeMapping TypeName="StockLearningModel.Exception">
+              <MappingFragment StoreEntitySet="Exceptions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsProtected" ColumnName="IsProtected" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="HTTPMethod" ColumnName="HTTPMethod" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="SQL" ColumnName="SQL" />
+                <ScalarProperty Name="DeletionDate" ColumnName="DeletionDate" />
+                <ScalarProperty Name="FullJson" ColumnName="FullJson" />
+                <ScalarProperty Name="ErrorHash" ColumnName="ErrorHash" />
+                <ScalarProperty Name="DuplicateCount" ColumnName="DuplicateCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="StockLearningModel.Language">
+              <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolePermissions">
+            <EntityTypeMapping TypeName="StockLearningModel.RolePermission">
+              <MappingFragment StoreEntitySet="RolePermissions">
+                <ScalarProperty Name="RolePermissionId" ColumnName="RolePermissionId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="PermissionKey" ColumnName="PermissionKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="StockLearningModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPermissions">
+            <EntityTypeMapping TypeName="StockLearningModel.UserPermission">
+              <MappingFragment StoreEntitySet="UserPermissions">
+                <ScalarProperty Name="UserPermissionId" ColumnName="UserPermissionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PermissionKey" ColumnName="PermissionKey" />
+                <ScalarProperty Name="Granted" ColumnName="Granted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPreferences">
+            <EntityTypeMapping TypeName="StockLearningModel.UserPreference">
+              <MappingFragment StoreEntitySet="UserPreferences">
+                <ScalarProperty Name="UserPreferenceId" ColumnName="UserPreferenceId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PreferenceType" ColumnName="PreferenceType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="StockLearningModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="StockLearningModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="LastDirectoryUpdate" ColumnName="LastDirectoryUpdate" />
+                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUserId" ColumnName="InsertUserId" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUserId" ColumnName="UpdateUserId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VersionInfoes">
+            <EntityTypeMapping TypeName="StockLearningModel.VersionInfo">
+              <MappingFragment StoreEntitySet="VersionInfo">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="AppliedOn" ColumnName="AppliedOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StockLearningModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockFinancialReports">
+            <EntityTypeMapping TypeName="StockLearningModel.StockFinancialReport">
+              <MappingFragment StoreEntitySet="StockFinancialReports">
+                <ScalarProperty Name="ZZCZZL" ColumnName="ZZCZZL" />
+                <ScalarProperty Name="YYJLL" ColumnName="YYJLL" />
+                <ScalarProperty Name="JLR" ColumnName="JLR" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="NoticeDate" ColumnName="NoticeDate" />
+                <ScalarProperty Name="GXL" ColumnName="GXL" />
+                <ScalarProperty Name="LRFP" ColumnName="LRFP" />
+                <ScalarProperty Name="XSMLL" ColumnName="XSMLL" />
+                <ScalarProperty Name="MGXJJE" ColumnName="MGXJJE" />
+                <ScalarProperty Name="ROEPJ" ColumnName="ROEPJ" />
+                <ScalarProperty Name="BPS" ColumnName="BPS" />
+                <ScalarProperty Name="SJLHZ" ColumnName="SJLHZ" />
+                <ScalarProperty Name="SJLTZ" ColumnName="SJLTZ" />
+                <ScalarProperty Name="SJL" ColumnName="SJL" />
+                <ScalarProperty Name="YSHZ" ColumnName="YSHZ" />
+                <ScalarProperty Name="YSTZ" ColumnName="YSTZ" />
+                <ScalarProperty Name="YS" ColumnName="YS" />
+                <ScalarProperty Name="EPSKCJB" ColumnName="EPSKCJB" />
+                <ScalarProperty Name="EPSJB" ColumnName="EPSJB" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="StockLearningModel.Stock">
+              <MappingFragment StoreEntitySet="Stocks">
+                <ScalarProperty Name="WebAddress" ColumnName="WebAddress" />
+                <ScalarProperty Name="Pinyin" ColumnName="Pinyin" />
+                <ScalarProperty Name="StockName" ColumnName="StockName" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

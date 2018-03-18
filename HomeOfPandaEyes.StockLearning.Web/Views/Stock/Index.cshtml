@@ -1,0 +1,103 @@
+﻿@model IEnumerable<HomeOfPandaEyes.StockLearning.DataContext.Stock>
+
+
+@{
+    ViewBag.Title = "股票清单";
+    ViewBag.Description = "所有沪深股票清单";
+}
+
+<!-- Content Header (Page header) -->
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <!-- /.box -->
+
+            <div class="box">
+                <div class="box-header">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <input id="txtsearch"  class="form-control" placeholder=""/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="submit" value="查询" class="btn btn-primary" id="btnsearch" style="width:100px" />
+                        </div>
+                        <div class="col-md-4">
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="stocks" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>股票代码</th>
+                                <th>名称</th>
+                                <th>查看财报</th>
+                                <th>查看详细</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><a href="~/stock/FinancialReport/@item.StockId" target="_blank">@Html.DisplayFor(modelItem => item.StockId)</a></td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StockName)
+                                    </td>
+                                    <td><a href="~/stock/FinancialReport/@item.StockId" target="_blank">查看</a></td>
+                                    <td><a href="@Html.DisplayFor(modelItem => item.WebAddress)" target="_blank">查看</a></td>
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr></tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- Left side column. contains the logo and sidebar -->
+<!-- DataTables -->
+<!-- page script -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#stocks').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false,
+            'iDisplayLength': 20
+        })
+    });
+    $("#btnsearch").click(function () {
+        if (window.location.href.indexOf("search") < 0) {
+            window.location.href = "stock/search/" + $("#txtsearch").val();
+        }
+        else {
+            window.location.href = "../../stock/search/" + $("#txtsearch").val();
+        }
+    });
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#btnsearch").trigger("click");
+        }
+    });
+</script>
+
+

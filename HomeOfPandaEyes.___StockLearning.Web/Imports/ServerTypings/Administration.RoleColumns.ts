@@ -1,0 +1,3 @@
+﻿namespace HomeOfPandaEyes.StockLearning.Administration {
+}
+
