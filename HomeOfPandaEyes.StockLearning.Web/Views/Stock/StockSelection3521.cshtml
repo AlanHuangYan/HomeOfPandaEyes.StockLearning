@@ -17,19 +17,25 @@
             <div class="box">
                 <div class="box-header">
                     <div class="form-group">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label class=" control-label">收入同比增长%</label>
                             <input id="txtYSTZ" class="form-control" placeholder="" value="30" />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label class=" control-label">销售毛利率%</label>
                             <input id="txtXSMLL" class="form-control" placeholder="" value="50" />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label class=" control-label">净利率%</label>
                             <input id="txtROEPJ" class="form-control" placeholder="" value="20" />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
+                            <label class=" control-label">总资产周转率(每年/次)</label>
+                            <input id="txtZZCZZL" class="form-control" placeholder="" value="1" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
                             <label class=" control-label">近2年内符合次数</label>
                             <select id="selCount" class="form-control">
                                 <option>1</option>
@@ -40,19 +46,20 @@
                                 <option>6</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label class=" control-label">忽略总资产周转率</label>
+                        <div class="col-md-3">
+                            <label class=" control-label">忽略次数</label>
                             <p></p>
-                            <input type="checkbox" id="chkZZCZZL" />
+                            <input type="checkbox" id="chkIgnoreCount"  checked="checked" />
                         </div>
-                        <div class="col-md-2">
-                            <label class=" control-label"></label>
-                            <p></p>
-                            <input type="submit" value="查询" class="btn btn-primary" id="btnsearch" style="width:100px" />
+                        <div class="col-md-3">
+                            
                         </div>
-
+                        <div class="col-md-3">
+                            @*<label class=" control-label">忽略次数</label>
+                            <p></p>*@
+                            <input type="submit" value="查询" class="btn btn-primary" id="btnsearch" style="width:100px; margin-top: 18px" />
+                        </div>
                     </div>
-
                 </div>
                 <!-- /.box-header -->
 
@@ -97,8 +104,8 @@
                                     <td class="classYSTZ">@Html.DisplayFor(modelItem => item.SJLTZ)</td>
                                     <td>@Html.DisplayFor(modelItem => item.SJLHZ)</td>
                                     <td>@Html.DisplayFor(modelItem => item.BPS)</td>
-                                    <td >@Html.DisplayFor(modelItem => item.ROEPJ)</td>
-                                    <td >@Math.Round(item.SJL.Value / 100000000, 2)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ROEPJ)</td>
+                                    <td>@Math.Round(item.SJL.Value / 100000000, 2)</td>
                                     <td class="classYYJLL">@Html.DisplayFor(modelItem => item.YYJLL)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ZZCZZL)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MGXJJE)</td>
@@ -197,11 +204,49 @@
             }
             )
             .addClass("goodvalue");
+
+        var YSTZ = $.getUrlParam('YSTZ');        
+        if (YSTZ != null)
+        {
+            $("#txtYSTZ").val(YSTZ);
+        }
+
+        var XSMLL = $.getUrlParam('XSMLL');
+        if (XSMLL != null) {
+            $("#txtXSMLL").val(XSMLL);
+        }
+
+        var ROEPJ = $.getUrlParam('ROEPJ');
+        if (ROEPJ != null) {
+            $("#txtROEPJ").val(ROEPJ);
+        }
+
+        var ZZCZZL = $.getUrlParam('ZZCZZL');
+        if (ZZCZZL != null) {
+            $("#txtZZCZZL").val(ZZCZZL);
+        }
+
+        var Count = $.getUrlParam('Count');
+        if (Count != null) {
+            $("#selCount").val(Count);
+        }
+
+        var IgnoreCount = $.getUrlParam('IgnoreCount');
+        if (IgnoreCount != null && IgnoreCount == 'false') {
+            
+            $("#chkIgnoreCount").iCheck('uncheck');   
+        }
     });
 
     $("#btnsearch").click(function () {
-        window.location.href = "../Stock/StockSelection3521?YSTZ=" + $("#txtYSTZ").val() + "&XSMLL=" + $("#txtXSMLL").val() + "&ROEPJ=" + $("#txtROEPJ").val() + "&Count=" + $("#selCount").val() + "&ZZCZZL=" + $("#chkZZCZZL")[0].checked;
+        window.location.href = "../Stock/StockSelection3521?YSTZ=" + $("#txtYSTZ").val() + "&XSMLL=" + $("#txtXSMLL").val() + "&ROEPJ=" + $("#txtROEPJ").val() + "&ZZCZZL=" + $("#txtZZCZZL").val() + "&Count=" + $("#selCount").val() + "&IgnoreCount=" + $("#chkIgnoreCount")[0].checked;
     });
+
+    $.getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
 </script>
 
 

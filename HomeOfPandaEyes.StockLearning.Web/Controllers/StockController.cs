@@ -69,41 +69,55 @@ namespace HomeOfPandaEyes.StockLearning.Web.Controllers
             decimal YSTZ = 30; // 营业收入同比增长率
             decimal XSMLL = 50; // 销售毛利率
             decimal YYJLL = 20; // 净利率
-            decimal count = 1; // 净资产收益率
+            decimal count = 1; // 2年内出现次数
+            decimal ZZCZZL = 1;
+            bool ignoreCount;
+            bool.TryParse(Request.QueryString["IgnoreCount"], out ignoreCount);
+
             if (string.IsNullOrEmpty(Request.QueryString["YSTZ"]))
             {
                 data.FinancialReports = (from p in db.StockFinancialReports.Include("Stock")
                                          join q in db.StockFinancialReports.GroupBy(f => f.StockId).Select(g => new { StockId = g.Key, ReportDate = g.Max(x => x.ReportDate) }) on new { StockId = p.StockId, ReportDate = p.ReportDate } equals new { StockId = q.StockId, ReportDate = q.ReportDate }
-                                         where p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL
+                                         where p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL && p.ZZCZZL >= ZZCZZL
                                          select p).ToList();
 
             }
             else
             {
-                var reportDate = DateTime.Now.AddYears(-2).AddMonths(-3);
                 if (decimal.TryParse(Request.QueryString["YSTZ"], out YSTZ) && decimal.TryParse(Request.QueryString["XSMLL"], out XSMLL)
-                    && decimal.TryParse(Request.QueryString["ROEPJ"], out YYJLL) && decimal.TryParse(Request.QueryString["Count"], out count))
+                    && decimal.TryParse(Request.QueryString["ROEPJ"], out YYJLL) && decimal.TryParse(Request.QueryString["Count"], out count) && decimal.TryParse(Request.QueryString["ZZCZZL"], out ZZCZZL))
                 {
-                    var financialReports = db.StockFinancialReports.Include("Stock").Where(p => p.ReportDate > reportDate && p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL).ToList();
+                    if (ignoreCount)
+                    {
+                        data.FinancialReports = (from p in db.StockFinancialReports.Include("Stock")
+                                                 join q in db.StockFinancialReports.GroupBy(f => f.StockId).Select(g => new { StockId = g.Key, ReportDate = g.Max(x => x.ReportDate) }) on new { StockId = p.StockId, ReportDate = p.ReportDate } equals new { StockId = q.StockId, ReportDate = q.ReportDate }
+                                                 where p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL && p.ZZCZZL >= ZZCZZL
+                                                 select p).ToList();
+                    }
+                    else
+                    {
+                        var reportDate = DateTime.Now.AddYears(-2).AddMonths(-3);
 
-                    var stockIds = financialReports.GroupBy(f => f.StockId).Select(g => new { StockId = g.Key, ReportCount = g.Count() }).Where(g => g.ReportCount >= count).Select(g => g.StockId).ToList();
+                        var financialReports = db.StockFinancialReports.Include("Stock").Where(p => p.ReportDate > reportDate && p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL && p.ZZCZZL >= ZZCZZL).ToList();
 
-                    data.FinancialReports = financialReports.Where(f => stockIds.Contains(f.StockId)).OrderBy(f=>f.StockId).ThenByDescending(f=>f.ReportDate).ToList();
+                        var stockIds = financialReports.GroupBy(f => f.StockId).Select(g => new { StockId = g.Key, ReportCount = g.Count() }).Where(g => g.ReportCount >= count).Select(g => g.StockId).ToList();
+
+                        data.FinancialReports = financialReports.Where(f => stockIds.Contains(f.StockId)).OrderBy(f => f.StockId).ThenByDescending(f => f.ReportDate).ToList();
+
+                    }
                 }
             }
 
-            bool ZZCZZL;
-            bool.TryParse(Request.QueryString["ZZCZZL"], out ZZCZZL);
             
-            if (!ZZCZZL)
-            {
-                var stockIds1 = data.FinancialReports.Select(f => f.StockId).ToList();
-                var reportDate1 = new DateTime(DateTime.Now.Year - 1, 12, 31);
-                var reportDate2 = new DateTime(DateTime.Now.Year - 2, 12, 31);
-                stockIds1 = db.StockFinancialReports.Where(f => stockIds1.Contains(f.StockId) && (f.ReportDate == reportDate1 || f.ReportDate == reportDate2) && f.ZZCZZL >= 1).Select(f => f.StockId).ToList();
+            //if (!ignoreCount)
+            //{
+            //    var stockIds1 = data.FinancialReports.Select(f => f.StockId).ToList();
+            //    var reportDate1 = new DateTime(DateTime.Now.Year - 1, 12, 31);
+            //    var reportDate2 = new DateTime(DateTime.Now.Year - 2, 12, 31);
+            //    stockIds1 = db.StockFinancialReports.Where(f => stockIds1.Contains(f.StockId) && (f.ReportDate == reportDate1 || f.ReportDate == reportDate2) && f.ZZCZZL >= ZZCZZL).Select(f => f.StockId).ToList();
 
-                data.FinancialReports = data.FinancialReports.Where(f => stockIds1.Contains(f.StockId)).ToList();
-            }
+            //    data.FinancialReports = data.FinancialReports.Where(f => stockIds1.Contains(f.StockId)).ToList();
+            //}
             
             return View(data);
         }

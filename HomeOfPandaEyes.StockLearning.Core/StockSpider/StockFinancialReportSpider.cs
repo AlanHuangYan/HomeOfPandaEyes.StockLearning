@@ -53,6 +53,41 @@ namespace HomeOfPandaEyes.StockLearning.Core.StockSpider
     {
         private static long count = 0;
 
+        //private readonly string SECUCODE = "SECUCODE";
+        //private readonly string REPORTDATE = "REPORTDATE";
+        //private readonly string YS = "YS";
+        //private readonly string SJL = "SJL";
+        //private readonly string EPSJB = "EPSJB";
+        //private readonly string YSTZ = "YSTZ";
+        //private readonly string YSHZ = "YSHZ";
+        //private readonly string SJLTZ = "SJLTZ";
+        //private readonly string SJLHZ = "SJLHZ";
+        //private readonly string BPS = "BPS";
+        //private readonly string ROEPJ = "ROEPJ";
+        //private readonly string MGXJJE = "MGXJJE";
+        //private readonly string XSMLL = "XSMLL";
+        //private readonly string LRFP = "LRFP";
+        //private readonly string GXL = "GXL";
+        //private readonly string NoticeDate = "NoticeDate";
+
+        private readonly string colSECUCODE = "scode";
+        private readonly string colREPORTDATE = "REPORTDATE";
+        private readonly string colYS = "totaloperatereve";
+        private readonly string colSJL = "parentnetprofit";
+        private readonly string colEPSJB = "basiceps";
+        private readonly string colEPSKCJB = "cutbasiceps";        
+        private readonly string colYSTZ = "YSTZ";
+        private readonly string colYSHZ = "YSHZ";
+        private readonly string colSJLTZ = "SJLTZ";
+        private readonly string colSJLHZ = "SJLHZ";
+        private readonly string colBPS = "BPS";
+        private readonly string colROEPJ = "roeweighted";
+        private readonly string colMGXJJE = "mgjyxjje";
+        private readonly string colXSMLL = "XSMLL";
+        private readonly string colLRFP = "assigndscrpt";
+        private readonly string colGXL = "GXL";
+        private readonly string colNoticeDate = "firstnoticedate";
+
         public override void Process(IEnumerable<ResultItems> resultItems, ISpider spider)
         {
             var context = new StockLearningEntities();            
@@ -66,14 +101,14 @@ namespace HomeOfPandaEyes.StockLearning.Core.StockSpider
                     {
                         return;
                     }
-                    string stockId = resultValue.Rows[0]["SECUCODE"].ToString();
+                    string stockId = resultValue.Rows[0][this.colSECUCODE].ToString();
 
                     Logger.Info($"Stock:{stockId}");
 
                     var reports = context.StockFinancialReports.Where(f => f.StockId == stockId).ToList();
                     foreach (DataRow row in resultValue.Rows)
                     {
-                        var reportDate = Convert.ToDateTime(row["REPORTDATE"].ToString());
+                        var reportDate = Convert.ToDateTime(row[this.colREPORTDATE].ToString());
 
                         var report = reports.FirstOrDefault(r => r.ReportDate == reportDate);
                         if (report != null)
@@ -82,7 +117,7 @@ namespace HomeOfPandaEyes.StockLearning.Core.StockSpider
                             {
                                 continue;
                             }
-                            if (report.YS == Convert.ToDecimal(row["YS"]) && report.SJL == Convert.ToDecimal(row["SJL"]))
+                            if (report.YS == Convert.ToDecimal(row[this.colYS]) && report.SJL == Convert.ToDecimal(row[this.colSJL]))
                             {
                                 continue;
                             }
@@ -95,25 +130,25 @@ namespace HomeOfPandaEyes.StockLearning.Core.StockSpider
                             context.StockFinancialReports.Add(report);
                             reports.Add(report);
                         }
-                        report.EPSJB = Convert.ToDecimal(row["EPSJB"]);
+                        report.EPSJB = Convert.ToDecimal(row[this.colEPSJB]);
                         decimal EPSKCJB = 0;
-                        decimal.TryParse(row["EPSKCJB"].ToString(), out EPSKCJB);
+                        decimal.TryParse(row[this.colEPSKCJB].ToString(), out EPSKCJB);
                         report.EPSKCJB = EPSKCJB;
-                        report.YS = Convert.ToDecimal(row["YS"]);
-                        report.YSTZ = Convert.ToDecimal(row["YSTZ"]);
-                        report.YSHZ = Convert.ToDecimal(row["YSHZ"]);
-                        report.SJL = Convert.ToDecimal(row["SJL"]);
-                        report.SJLTZ = Convert.ToDecimal(row["SJLTZ"]);
-                        report.SJLHZ = Convert.ToDecimal(row["SJLHZ"]);
-                        report.BPS = Convert.ToDecimal(row["BPS"]);
-                        report.ROEPJ = Convert.ToDecimal(row["ROEPJ"]);
+                        report.YS = Convert.ToDecimal(row[this.colYS]);
+                        report.YSTZ = Convert.ToDecimal(row[this.colYSTZ]);
+                        report.YSHZ = Convert.ToDecimal(row[this.colYSHZ]);
+                        report.SJL = Convert.ToDecimal(row[this.colSJL]);
+                        report.SJLTZ = Convert.ToDecimal(row[this.colSJLTZ]);
+                        report.SJLHZ = Convert.ToDecimal(row[this.colSJLHZ]);
+                        report.BPS = Convert.ToDecimal(row[this.colBPS]);
+                        report.ROEPJ = Convert.ToDecimal(row[this.colROEPJ]);
                         decimal MGXJJE = 0;
-                        decimal.TryParse(row["MGXJJE"].ToString(), out MGXJJE);
+                        decimal.TryParse(row[this.colMGXJJE].ToString(), out MGXJJE);
                         report.MGXJJE = MGXJJE;
-                        report.XSMLL = Convert.ToDecimal(row["XSMLL"]);
-                        report.LRFP = row["LRFP"].ToString();
-                        report.GXL = Convert.ToDecimal(row["GXL"]);
-                        report.NoticeDate = string.IsNullOrWhiteSpace(row["NoticeDate"].ToString()) ? new Nullable<DateTime>() : Convert.ToDateTime(row["NoticeDate"].ToString());
+                        report.XSMLL = Convert.ToDecimal(row[this.colXSMLL]);
+                        report.LRFP = row[this.colLRFP].ToString();
+                        report.GXL = Convert.ToDecimal(row[this.colGXL]);
+                        report.NoticeDate = string.IsNullOrWhiteSpace(row[this.colNoticeDate].ToString()) ? new Nullable<DateTime>() : Convert.ToDateTime(row[this.colNoticeDate].ToString());
                         report.UpdatedDate = DateTime.Now;
                     }
                     context.SaveChanges();
@@ -154,7 +189,5 @@ namespace HomeOfPandaEyes.StockLearning.Core.StockSpider
             //// Save data object by key. 以自定义KEY存入page对象中供Pipeline调用
             page.AddResultItem("Result", results);
         }
-    }
-
-    
+    }    
 }
