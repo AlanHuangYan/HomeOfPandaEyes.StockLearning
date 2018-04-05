@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SMTPEmailSender.cs" />
     <Compile Include="Logger\BaseLogger.cs" />
     <Compile Include="Logger\LoggerProfileSettingsCollection.cs" />
     <Compile Include="Logger\LoggerProfileSection.cs" />

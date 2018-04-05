@@ -50,7 +50,7 @@ namespace HomeOfPandaEyes.StockLearning.Core.StockSpider
                 // use custmize pipeline for  Pipeline
                 .AddPipeline(new StockJJRPipeline());
             spider.Downloader = new HttpClientDownloader();
-            spider.ThreadNum = 4;
+            spider.ThreadNum = 1;
             spider.EmptySleepTime = 3000;
 
             // Start crawler 启动爬虫

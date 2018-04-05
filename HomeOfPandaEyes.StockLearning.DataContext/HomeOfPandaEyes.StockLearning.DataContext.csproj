@@ -86,6 +86,9 @@
     <Compile Include="sysdiagram.cs">
       <DependentUpon>StockLearningDataContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="SystemSetting.cs">
+      <DependentUpon>StockLearningDataContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>StockLearningDataContext.tt</DependentUpon>
     </Compile>

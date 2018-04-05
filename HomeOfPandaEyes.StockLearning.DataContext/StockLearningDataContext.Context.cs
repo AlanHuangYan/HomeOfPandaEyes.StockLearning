@@ -37,5 +37,6 @@ namespace HomeOfPandaEyes.StockLearning.DataContext
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<StockFinancialReport> StockFinancialReports { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
+        public virtual DbSet<SystemSetting> SystemSettings { get; set; }
     }
 }

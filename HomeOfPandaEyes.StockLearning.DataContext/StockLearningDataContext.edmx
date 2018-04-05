@@ -99,6 +99,17 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="SystemSettings">
+          <Key>
+            <PropertyRef Name="SystemSettingId" />
+          </Key>
+          <Property Name="SystemSettingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SystemSettingKey" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SystemSettingValue1" Type="nvarchar" MaxLength="50" />
+          <Property Name="SystemSettingValue2" Type="nvarchar" MaxLength="50" />
+          <Property Name="SystemSettingValue3" Type="nvarchar" MaxLength="50" />
+          <Property Name="SystemSettingValue4" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="UserPermissions">
           <Key>
             <PropertyRef Name="UserPermissionId" />
@@ -223,6 +234,7 @@ warning 6002: The table/view 'StockLearning.dbo.VersionInfo' does not have a pri
           <EntitySet Name="StockFinancialReports" EntityType="Self.StockFinancialReports" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stocks" EntityType="Self.Stocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemSettings" EntityType="Self.SystemSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserPermissions" EntityType="Self.UserPermissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
@@ -450,6 +462,7 @@ warning 6002: The table/view 'StockLearning.dbo.VersionInfo' does not have a pri
             <End Role="Stock" EntitySet="Stocks" />
             <End Role="StockFinancialReport" EntitySet="StockFinancialReports" />
           </AssociationSet>
+          <EntitySet Name="SystemSettings" EntityType="StockLearningModel.SystemSetting" />
         </EntityContainer>
         <EntityType Name="sysdiagram">
           <Key>
@@ -511,6 +524,17 @@ warning 6002: The table/view 'StockLearning.dbo.VersionInfo' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SystemSetting">
+          <Key>
+            <PropertyRef Name="SystemSettingId" />
+          </Key>
+          <Property Name="SystemSettingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SystemSettingKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SystemSettingValue1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SystemSettingValue2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SystemSettingValue3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SystemSettingValue4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -674,6 +698,18 @@ warning 6002: The table/view 'StockLearning.dbo.VersionInfo' does not have a pri
                 <ScalarProperty Name="Pinyin" ColumnName="Pinyin" />
                 <ScalarProperty Name="StockName" ColumnName="StockName" />
                 <ScalarProperty Name="StockId" ColumnName="StockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemSettings">
+            <EntityTypeMapping TypeName="StockLearningModel.SystemSetting">
+              <MappingFragment StoreEntitySet="SystemSettings">
+                <ScalarProperty Name="SystemSettingValue4" ColumnName="SystemSettingValue4" />
+                <ScalarProperty Name="SystemSettingValue3" ColumnName="SystemSettingValue3" />
+                <ScalarProperty Name="SystemSettingValue2" ColumnName="SystemSettingValue2" />
+                <ScalarProperty Name="SystemSettingValue1" ColumnName="SystemSettingValue1" />
+                <ScalarProperty Name="SystemSettingKey" ColumnName="SystemSettingKey" />
+                <ScalarProperty Name="SystemSettingId" ColumnName="SystemSettingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -22,6 +22,7 @@
         <EntityTypeShape EntityType="StockLearningModel.StockFinancialReport" Width="1.5" PointX="12.625" PointY="4.125" />
         <EntityTypeShape EntityType="StockLearningModel.Stock" Width="1.5" PointX="10.375" PointY="5.5" />
         <AssociationConnector Association="StockLearningModel.FK_StockFinancialReports_Stocks" />
+        <EntityTypeShape EntityType="StockLearningModel.SystemSetting" Width="1.5" PointX="5.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

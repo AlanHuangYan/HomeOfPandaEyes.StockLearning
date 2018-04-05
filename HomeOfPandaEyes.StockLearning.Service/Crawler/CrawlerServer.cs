@@ -1,5 +1,6 @@
 ﻿using HomeOfPandaEyes.Infrastructure.Logger;
 using HomeOfPandaEyes.StockLearning.Core;
+using HomeOfPandaEyes.StockLearning.Core.Modules.Email;
 using System;
 
 namespace HomeOfPandaEyes.StockLearning.Service
@@ -69,7 +70,13 @@ namespace HomeOfPandaEyes.StockLearning.Service
 
             LoggingService.Info(null, "StartCrawler process end.");
 
-            System.Threading.Thread.Sleep(1000);
+            // mail
+            LoggingService.Info(null, "Send email process start ...");
+            EmailService emailService = new EmailService();
+            emailService.SendStock3521();
+            LoggingService.Info(null, "Send email process end.");
+
+            System.Threading.Thread.Sleep(10000);
         }
     }
 }

@@ -124,18 +124,18 @@ namespace HomeOfPandaEyes.StockLearning.Service
                 string timerTriggerMsg = string.Format("{0} {1}", ServiceModuleName, "Timer tiggered !");
                 LoggingService.Info(null, timerTriggerMsg);
 
-                //if (DateTime.Now >= DateTime.Today.Add(scheduledProcessTime) && DateTime.Now < DateTime.Today.Add(scheduledProcessTime).AddMilliseconds(scheduledIntervalSeconds))
-                //{
+                if (DateTime.Now >= DateTime.Today.Add(scheduledProcessTime) && DateTime.Now < DateTime.Today.Add(scheduledProcessTime).AddMilliseconds(scheduledIntervalSeconds))
+                {
                     if (CrawlerServer == null)
                     {
                         CrawlerServer = new CrawlerServer();
                     }
                     CrawlerServer.Start();
-                //}
-                //else
-                //{
-                //    LoggingService.Info(null, "Time does not match.");
-                //}
+                }
+                else
+                {
+                    LoggingService.Info(null, "Time does not match.");
+                }
             }
             catch (TransactionAbortedException e)
             {

@@ -53,9 +53,9 @@ namespace HomeOfPandaEyes.StockLearning.Web.Controllers
             HomeController.RootSearch(this);
 
             StockFinancialReportContext data = new StockFinancialReportContext();
-            var searchDate = DateTime.Today.AddDays(-7);
-            var year = DateTime.Today.Year - 1;
-            data.FinancialReports = db.StockFinancialReports.Include("Stock").Where(f => f.NoticeDate >= searchDate && f.ReportDate.Year >= year).OrderByDescending(f => f.NoticeDate).ToList();
+            //var searchDate = DateTime.Today.AddDays(-7);
+            //var year = DateTime.Today.Year - 1;
+            data.FinancialReports = db.StockFinancialReports.Include("Stock").OrderByDescending(f => f.NoticeDate).Take(300).ToList();
             return View(data);
         }
 
@@ -70,7 +70,7 @@ namespace HomeOfPandaEyes.StockLearning.Web.Controllers
             decimal XSMLL = 50; // 销售毛利率
             decimal YYJLL = 20; // 净利率
             decimal count = 1; // 2年内出现次数
-            decimal ZZCZZL = 1;
+            decimal ZZCZZL = 0.1m;
             bool ignoreCount;
             bool.TryParse(Request.QueryString["IgnoreCount"], out ignoreCount);
 
@@ -79,7 +79,7 @@ namespace HomeOfPandaEyes.StockLearning.Web.Controllers
                 data.FinancialReports = (from p in db.StockFinancialReports.Include("Stock")
                                          join q in db.StockFinancialReports.GroupBy(f => f.StockId).Select(g => new { StockId = g.Key, ReportDate = g.Max(x => x.ReportDate) }) on new { StockId = p.StockId, ReportDate = p.ReportDate } equals new { StockId = q.StockId, ReportDate = q.ReportDate }
                                          where p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL && p.ZZCZZL >= ZZCZZL
-                                         select p).ToList();
+                                         select p).OrderByDescending(f=>f.NoticeDate).ToList();
 
             }
             else
@@ -92,7 +92,7 @@ namespace HomeOfPandaEyes.StockLearning.Web.Controllers
                         data.FinancialReports = (from p in db.StockFinancialReports.Include("Stock")
                                                  join q in db.StockFinancialReports.GroupBy(f => f.StockId).Select(g => new { StockId = g.Key, ReportDate = g.Max(x => x.ReportDate) }) on new { StockId = p.StockId, ReportDate = p.ReportDate } equals new { StockId = q.StockId, ReportDate = q.ReportDate }
                                                  where p.YSTZ >= YSTZ && p.XSMLL >= XSMLL && p.YYJLL >= YYJLL && p.ZZCZZL >= ZZCZZL
-                                                 select p).ToList();
+                                                 select p).OrderByDescending(f => f.NoticeDate).ToList();
                     }
                     else
                     {
